@@ -19,9 +19,61 @@ No cloud storage. No external servers. No account required.
 
 ## Installation
 
+## Installation
+
+### Recommended (Linux/macOS/Windows)
+
+Install using pipx:
+
 ```bash
+pipx install secure-mypass
+```
+
+### Ubuntu/Debian
+
+If pipx is not installed:
+
+```bash
+sudo apt update
+sudo apt install pipx
+
+pipx ensurepath
+```
+
+Restart your terminal and install:
+
+```bash
+pipx install secure-mypass
+```
+
+### Using Virtual Environment
+
+```bash
+python3 -m venv venv
+
+source venv/bin/activate
+
 pip install secure-mypass
 ```
+
+## Verify Installation
+
+```bash
+mypass init
+```
+
+Output:
+
+```text
+Created: ~/.mypass
+```
+
+List entries:
+
+```bash
+mypass list
+```
+
 
 ## Create Password Store
 
@@ -159,3 +211,75 @@ Ravi K
 Lead Software Engineer
 
 Python | Django | FastAPI | AWS | PostgreSQL
+
+## Commands
+
+| Command                   | Description                |
+| ------------------------- | -------------------------- |
+| `mypass init`             | Create password store      |
+| `mypass add`              | Add new credential         |
+| `mypass list`             | List all entries           |
+| `mypass search <keyword>` | Search credentials         |
+| `mypass delete <keyword>` | Delete credential          |
+
+## Quick Start
+
+Create password store:
+
+```bash
+mypass init
+```
+
+Add a credential:
+
+```bash
+mypass add
+```
+
+Search credentials:
+
+```bash
+mypass search provenio
+```
+
+Delete a credential:
+
+```bash
+mypass delete provenio
+```
+
+## Cross Platform
+
+Secure MyPass works on:
+
+* Ubuntu
+* Debian
+* Fedora
+* CentOS
+* macOS
+* Windows CMD
+* Windows PowerShell
+
+No aliases required.
+
+## Storage
+
+Credentials are stored locally in:
+
+### Linux/macOS
+
+```text
+~/.mypass
+```
+
+### Windows
+
+```text
+C:\Users\<username>\.mypass
+```
+
+No cloud synchronization.
+
+No external servers.
+
+No account required.

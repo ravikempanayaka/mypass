@@ -11,9 +11,9 @@ def parse_mypass():
     current_section = None
     current_record = {}
 
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(file_path, "r", encoding="utf-8") as f:
 
-        for line in file:
+        for line in f:
             line = line.strip()
 
             if not line:
@@ -27,7 +27,9 @@ def parse_mypass():
             if line.startswith("[") and line.endswith("]"):
 
                 current_section = line[1:-1]
-                data.setdefault(current_section, [])
+
+                if current_section not in data:
+                    data[current_section] = []
 
                 continue
 
