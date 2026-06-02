@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+mypass/__init__.py
+mypass/cli.py
+mypass/crypto.py
+mypass/parser.py
+mypass/search.py
+mypass/storage.py
+secure_mypass.egg-info/PKG-INFO
+secure_mypass.egg-info/SOURCES.txt
+secure_mypass.egg-info/dependency_links.txt
+secure_mypass.egg-info/entry_points.txt
+secure_mypass.egg-info/top_level.txt

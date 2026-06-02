@@ -1,0 +1,2 @@
+[console_scripts]
+mypass = mypass.cli:main
