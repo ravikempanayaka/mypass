@@ -75,7 +75,7 @@ secure-mypass/
 
 Figure 1: Complete Secure MyPass workflow — Initialize → Setup Master Password → Add Credentials → List → Search (masked) → Show (decrypted).
 
-![Initialize Vault](mypass/docs/images/complete_flow_image.png)
+![Workflow](https://raw.githubusercontent.com/ravikempanayaka/mypass/main/docs/images/workflow-overview.png)
 
 
 # First Time Setup
