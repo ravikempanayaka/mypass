@@ -9,6 +9,10 @@ SENSITIVE_FIELDS = {
     "app password",
     "app token",
     "app secret",
+    "apppassword",
+    "app_password",
+    "systempassword"
+    "system_sassword"
 }
 
 

@@ -17,6 +17,11 @@ SENSITIVE_FIELDS = {
     "secret",
     "api_key",
     "recovery_codes",
+    "apppassword",
+    "app_password",
+    "systemsassword"
+    "system_password"
+
 }
 
 

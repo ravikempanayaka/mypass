@@ -76,13 +76,20 @@ mypass <keyword>
 
         if len(sys.argv) < 3:
             print(
+
                 "Usage: mypass delete <keyword>"
+
             )
+
             return
 
-        delete.run(
-            sys.argv[2]
+        keyword = " ".join(
+
+            sys.argv[2:]
+
         )
+
+        delete.run(keyword)
 
     elif command == "search":
 

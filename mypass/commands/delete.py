@@ -1,60 +1,120 @@
-import sys
-
-from mypass.commands import (
-    init,
-    setup,
-    add,
-    list,
-    search,
-    show,
-    delete
-)
+from mypass.parser import parse_mypass
+from mypass.security import verify_master_password
+from mypass.storage import FILE_PATH
 
 
-def main():
+def run(keyword):
 
-    if len(sys.argv) < 2:
-        print(
-            """
-mypass setup
-mypass init
-mypass add
-mypass list
-mypass search <keyword>
-mypass show <name>
-mypass delete <name>
-"""
-        )
+    cipher = verify_master_password()
+
+    if not cipher:
         return
 
-    command = sys.argv[1]
+    keyword = keyword.lower()
 
-    if command == "setup":
-        setup.run()
+    data = parse_mypass()
 
-    elif command == "init":
-        init.run()
+    found = False
 
-    elif command == "add":
-        add.run()
+    target_section = None
+    target_record = None
 
-    elif command == "list":
-        list.run()
+    for section, records in data.items():
 
-    elif command == "search":
-        search.run(
-            sys.argv[2]
+        for record in records:
+
+            section_match = (
+                keyword in section.lower()
+            )
+
+            record_match = any(
+                keyword in str(value).lower()
+                for value in record.values()
+            )
+
+            if section_match or record_match:
+
+                found = True
+
+                target_section = section
+                target_record = record
+
+                print(
+                    f"\n[{section}]"
+                )
+
+                for key, value in record.items():
+
+                    if str(value).startswith("ENC:"):
+                        value = "********"
+
+                    print(
+                        f"{key}: {value}"
+                    )
+
+                break
+
+        if found:
+            break
+
+    if not found:
+
+        print(
+            f"No credential found for '{keyword}'."
         )
 
-    elif command == "show":
-        show.run(
-            sys.argv[2]
+        return
+
+    confirm = input(
+        "\nDelete this credential? (y/n): "
+    ).strip().lower()
+
+    if confirm != "y":
+
+        print(
+            "Delete cancelled."
         )
 
-    elif command == "delete":
-        delete.run(
-            sys.argv[2]
-        )
+        return
 
-    else:
-        search.run(command)
+    data[target_section].remove(
+        target_record
+    )
+
+    save_data(data)
+
+    print(
+        "Credential deleted successfully."
+    )
+
+
+def save_data(data):
+
+    with open(
+        FILE_PATH,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        first_section = True
+
+        for section, records in data.items():
+
+            for record in records:
+
+                if not first_section:
+                    file.write("\n")
+
+                first_section = False
+
+                file.write(
+                    f"[{section}]\n"
+                )
+
+                for key, value in record.items():
+
+                    file.write(
+                        f"{key}: {value}\n"
+                    )
+
+                file.write("\n")
