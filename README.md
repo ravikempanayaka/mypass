@@ -59,6 +59,24 @@ pip install secure-mypass
 ```
 
 ---
+##  Recommended GitHub Structure
+```aiignore
+secure-mypass/
+│
+├── docs/
+│   └── images/
+│       ├── workflow-overview.png
+├── mypass/
+├── README.md
+└── pyproject.toml
+```
+
+## Workflow Overview
+
+Figure 1: Complete Secure MyPass workflow — Initialize → Setup Master Password → Add Credentials → List → Search (masked) → Show (decrypted).
+
+![Initialize Vault](mypass/docs/images/complete_flow_image.png)
+
 
 # First Time Setup
 
