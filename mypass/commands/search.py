@@ -1,5 +1,16 @@
 from mypass.parser import parse_mypass
-import getpass
+
+SENSITIVE_FIELDS = {
+    "password",
+    "token",
+    "secret",
+    "api_key",
+    "recovery_codes",
+    "app password",
+    "app token",
+    "app secret",
+}
+
 
 def run(keyword):
 
@@ -13,31 +24,37 @@ def run(keyword):
 
         for record in records:
 
-            values = [
-                str(v).lower()
-                for v in record.values()
-            ]
-
-            if (
+            section_match = (
                 keyword in section.lower()
-                or any(
-                    keyword in value
-                    for value in values
-                )
-            ):
+            )
+
+            record_match = any(
+                keyword in str(value).lower()
+                for value in record.values()
+                if not str(value).startswith("ENC:")
+            )
+
+            if section_match or record_match:
 
                 found = True
 
-                print(
-                    f"\n[{section}]"
-                )
+                print(f"\n[{section}]")
 
                 for key, value in record.items():
-                    print(
-                        f"{key}: {value}"
-                    )
+
+                    if (
+                        key.lower()
+                        in SENSITIVE_FIELDS
+                    ):
+                        print(
+                            f"{key}: ********"
+                        )
+                    else:
+                        print(
+                            f"{key}: {value}"
+                        )
 
     if not found:
         print(
-            f"No matching records found. {getpass.getuser()}"
+            f"No matching records found for '{keyword}'."
         )

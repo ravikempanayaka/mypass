@@ -1,27 +1,27 @@
 # Secure MyPass
 
-A lightweight and secure local password manager for Linux/macOS terminals.
+A lightweight, terminal-based password manager that stores credentials securely on your local machine.
 
-Secure MyPass allows you to store and search credentials directly from your terminal using a simple text-based database located in your home directory.
-
-No cloud storage. No external servers. No account required.
+Secure MyPass is designed for developers, system administrators, DevOps engineers, and power users who prefer local credential management without cloud synchronization or external services.
 
 ## Features
 
-* Store credentials locally in `~/.mypass`
-* Fast keyword search from the terminal
+* Local-first password management
+* Master password protection
+* Encrypted sensitive fields
+* Dynamic credential fields
 * Organize credentials into sections
-* Simple and lightweight
-* No internet dependency
-* No vendor lock-in
+* Fast terminal search
+* Cross-platform support
+* No cloud storage
+* No external dependencies beyond Python packages
 * Easy backup and migration
-* Linux and macOS friendly
 
-## Installation
+---
 
-## Installation
+# Installation
 
-### Recommended (Linux/macOS/Windows)
+## Recommended Installation
 
 Install using pipx:
 
@@ -29,9 +29,9 @@ Install using pipx:
 pipx install secure-mypass
 ```
 
-### Ubuntu/Debian
-
 If pipx is not installed:
+
+### Ubuntu / Debian
 
 ```bash
 sudo apt update
@@ -46,7 +46,9 @@ Restart your terminal and install:
 pipx install secure-mypass
 ```
 
-### Using Virtual Environment
+---
+
+## Alternative: Virtual Environment
 
 ```bash
 python3 -m venv venv
@@ -56,230 +58,305 @@ source venv/bin/activate
 pip install secure-mypass
 ```
 
-## Verify Installation
+---
+
+# First Time Setup
+
+## Step 1: Initialize the Vault
 
 ```bash
 mypass init
 ```
 
-Output:
+This creates:
 
 ```text
-Created: ~/.mypass
-```
-
-List entries:
-
-```bash
-mypass list
-```
-
-
-## Create Password Store
-
-Create a file named:
-
-```bash
 ~/.mypass
+```
+
+---
+
+## Step 2: Configure Master Password
+
+```bash
+mypass setup
 ```
 
 Example:
 
-```ini
-[SSO Login]
-Name: Portal SSO
-Url: https://abc.com
-UserName: ravi
-Password: mypassword
-
-Name: Terminal SSO
-Command: aws configure sso
-
-[Microsoft Email Services]
-Name: Provenio Mail
-Email: ravi@example.com
-Password: mysecretpassword
-
-Name: Enkefalos Mail
-Email: ravi@example.com
-Password: anotherpassword
-```
-
-## Usage
-
-Search by section name:
-
-```bash
-mypass provenio
-```
-
-Output:
-
 ```text
-[Microsoft Email Services]
-
-Name: Provenio Mail
-Email: ravi@example.com
-Password: ********
+Create Master Password:
+Confirm Master Password:
 ```
 
-Search by email:
+The master password is required whenever you:
 
-```bash
-mypass ravi@example.com
-```
+* Add credentials
+* View decrypted credentials
+* Delete credentials
+* Change the master password
 
-Search by service name:
+---
 
-```bash
-mypass enkefalos
-```
+# Daily Usage
 
-## File Location
-
-Secure MyPass always reads credentials from:
-
-```bash
-~/.mypass
-```
-
-This ensures credentials remain under your control and can easily be backed up using Git, Dropbox, OneDrive, rsync, or any preferred method.
-
-## Security Notes
-
-* All data is stored locally on your machine.
-* No credentials are transmitted over the internet.
-* No external services are used.
-* Restrict file access:
-
-```bash
-chmod 600 ~/.mypass
-```
-
-Recommended permissions:
-
-```text
--rw------- ~/.mypass
-```
-
-## Example Alias
-
-Add to your `.bashrc` or `.zshrc`:
-
-```bash
-alias mypass="python3 ~/mypass_cli.py"
-```
-
-Or install from PyPI and use directly:
-
-```bash
-mypass provenio
-```
-
-## Use Cases
-
-* AWS SSO accounts
-* Email credentials
-* Internal portals
-* Database logins
-* Development environments
-* Personal projects
-* Infrastructure credentials
-
-## Why Secure MyPass?
-
-Many password managers require cloud synchronization, subscriptions, or browser integrations.
-
-Secure MyPass follows a different philosophy:
-
-* Local-first
-* Terminal-first
-* Simple
-* Fast
-* Developer-friendly
-
-Perfect for engineers, DevOps professionals, system administrators, and developers who prefer local credential management.
-
-## License
-
-MIT License
-
-## Author
-
-Ravi K
-
-Lead Software Engineer
-
-Python | Django | FastAPI | AWS | PostgreSQL
-
-## Commands
-
-| Command                   | Description                |
-| ------------------------- | -------------------------- |
-| `mypass init`             | Create password store      |
-| `mypass add`              | Add new credential         |
-| `mypass list`             | List all entries           |
-| `mypass search <keyword>` | Search credentials         |
-| `mypass delete <keyword>` | Delete credential          |
-
-## Quick Start
-
-Create password store:
-
-```bash
-mypass init
-```
-
-Add a credential:
+## Add a Credential
 
 ```bash
 mypass add
 ```
 
-Search credentials:
+Example:
 
-```bash
-mypass search provenio
+```text
+Master Password:
+
+Sections
+
+1. Email Accounts
+2. Cloud Accounts
+0. New Section
+
+Select: 0
+
+Section Name: Email Accounts
+
+System Name: Personal Mail
+
+Field Name: Email
+Email: user@example.com
+
+Field Name: Password
+Password:
+
+Field Name:
 ```
 
-Delete a credential:
+Press Enter on an empty field name to finish.
+
+---
+
+## Search Credentials
+
+Search without revealing secrets:
 
 ```bash
-mypass delete provenio
+mypass search personal
 ```
 
-## Cross Platform
+Example:
 
-Secure MyPass works on:
+```text
+[Email Accounts]
+
+Name: Personal Mail
+Email: user@example.com
+Password: ********
+```
+
+---
+
+## Show Credential
+
+Reveal encrypted values:
+
+```bash
+mypass show personal
+```
+
+Example:
+
+```text
+Master Password:
+
+[Email Accounts]
+
+Name: Personal Mail
+Email: user@example.com
+Password: MySecretPassword
+```
+
+---
+
+## List All Credentials
+
+```bash
+mypass list
+```
+
+Example:
+
+```text
+[Email Accounts]
+- Personal Mail
+
+[Cloud Accounts]
+- Development Account
+```
+
+---
+
+## Delete a Credential
+
+```bash
+mypass delete personal
+```
+
+---
+
+# Supported Dynamic Fields
+
+You can store any field you want.
+
+Examples:
+
+```text
+Email
+Username
+Password
+URL
+Token
+API Key
+Recovery Codes
+Access Key
+Secret Key
+Database Host
+Database User
+Database Password
+```
+
+No predefined schema is required.
+
+---
+
+# Security
+
+Secure MyPass uses a master password to protect sensitive data.
+
+Sensitive fields are encrypted before being stored.
+
+Examples:
+
+```text
+Password
+Token
+API Key
+Recovery Codes
+Secret Key
+```
+
+When searching:
+
+```bash
+mypass search personal
+```
+
+Sensitive values are hidden:
+
+```text
+Password: ********
+```
+
+When viewing:
+
+```bash
+mypass show personal
+```
+
+The master password is required before decryption.
+
+---
+
+# Storage Location
+
+## Linux / macOS
+
+```text
+~/.mypass
+~/.mypass.key
+```
+
+## Windows
+
+```text
+C:\Users\<username>\.mypass
+C:\Users\<username>\.mypass.key
+```
+
+---
+
+# Backup
+
+Backup your vault:
+
+```bash
+cp ~/.mypass backup.mypass
+cp ~/.mypass.key backup.key
+```
+
+To restore:
+
+```bash
+cp backup.mypass ~/.mypass
+cp backup.key ~/.mypass.key
+```
+
+Important:
+
+Both files are required.
+
+Without `.mypass.key`, encrypted credentials cannot be decrypted.
+
+---
+
+# Commands
+
+| Command                   | Description                        |
+| ------------------------- | ---------------------------------- |
+| `mypass init`             | Create vault file                  |
+| `mypass setup`            | Configure master password          |
+| `mypass add`              | Add a credential                   |
+| `mypass list`             | List credentials                   |
+| `mypass search <keyword>` | Search credentials (masked output) |
+| `mypass show <keyword>`   | Show decrypted credential          |
+| `mypass delete <keyword>` | Delete credential                  |
+
+---
+
+# Supported Platforms
 
 * Ubuntu
 * Debian
 * Fedora
 * CentOS
 * macOS
-* Windows CMD
+* Windows Command Prompt
 * Windows PowerShell
 
-No aliases required.
+---
 
-## Storage
+# Why Secure MyPass?
 
-Credentials are stored locally in:
+Many password managers depend on cloud synchronization, browser extensions, or subscriptions.
 
-### Linux/macOS
+Secure MyPass focuses on:
 
-```text
-~/.mypass
-```
+* Local storage
+* Terminal workflow
+* Simplicity
+* Speed
+* Developer productivity
 
-### Windows
+Your credentials remain under your control at all times.
 
-```text
-C:\Users\<username>\.mypass
-```
+---
 
-No cloud synchronization.
+# License
 
-No external servers.
+MIT License
 
-No account required.
+---
+
+# Author
+
+Ravi K

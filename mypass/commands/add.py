@@ -1,123 +1,129 @@
 import getpass
 
-from mypass.parser import parse_mypass
-from mypass.storage import get_file_path
-
+from mypass.parser import (
+    parse_mypass
+)
+from mypass.security import (
+    verify_master_password,
+    encrypt,
+)
+from mypass.storage import (
+    FILE_PATH
+)
 
 SENSITIVE_FIELDS = {
     "password",
     "token",
     "secret",
-    "secret_key",
     "api_key",
-    "access_key",
-    "recovery_code",
     "recovery_codes",
 }
 
 
-def select_section():
+def run():
+    cipher = (
+        verify_master_password()
+    )
+
+    if not cipher:
+        return
+
     data = parse_mypass()
 
     sections = list(data.keys())
 
-    print("\nAvailable Sections\n")
+    print("\nSections\n")
 
-    if sections:
-        for index, section in enumerate(sections, start=1):
-            print(f"{index}. {section}")
+    for index, section in enumerate(
+            sections,
+            start=1
+    ):
+        print(
+            f"{index}. {section}"
+        )
 
-    print("0. Create New Section")
+    print("0. New Section")
 
-    choice = input("\nSelect section: ").strip()
+    choice = input(
+        "\nSelect: "
+    ).strip()
 
     if choice == "0":
-        return input(
-            "Enter new section name: "
+
+        section = input(
+            "Section Name: "
         ).strip()
 
-    try:
-        return sections[int(choice) - 1]
+    else:
 
-    except (ValueError, IndexError):
-        print("Invalid selection")
-        return None
+        try:
 
+            section = sections[
+                int(choice) - 1
+                ]
 
-def collect_fields():
+        except (
+                ValueError,
+                IndexError
+        ):
+
+            print(
+                "Invalid selection."
+            )
+
+            return
+
     fields = {}
-
-    print(
-        "\nAdd fields (leave field name blank to finish)\n"
-    )
 
     while True:
 
-        field_name = input(
+        key = input(
             "Field Name: "
         ).strip()
 
-        if not field_name:
+        if not key:
             break
 
-        if field_name.lower() in SENSITIVE_FIELDS:
+        if (
+                key.lower()
+                in SENSITIVE_FIELDS
+        ):
 
-            value = getpass.getpass(
-                f"{field_name}: "
+            value = (
+                getpass.getpass(
+                    f"{key}: "
+                )
+            )
+
+            value = encrypt(
+                value,
+                cipher
             )
 
         else:
 
             value = input(
-                f"{field_name}: "
+                f"{key}: "
             ).strip()
 
-        fields[field_name] = value
-
-    return fields
-
-
-def save_record(section, fields):
-
-    file_path = get_file_path()
+        fields[key] = value
 
     with open(
-        file_path,
-        "a",
-        encoding="utf-8"
+            FILE_PATH,
+            "a",
+            encoding="utf-8"
     ) as file:
 
-        file.write(f"\n\n[{section}]\n")
+        file.write(
+            f"\n\n[{section}]\n"
+        )
 
-        for key, value in fields.items():
+        for key, value in (
+                fields.items()
+        ):
             file.write(
                 f"{key}: {value}\n"
             )
-
-
-def run():
-
-    section = select_section()
-
-    if not section:
-        return
-
-    print(
-        f"\nUsing Section: {section}"
-    )
-
-    fields = collect_fields()
-
-    if not fields:
-        print(
-            "No fields entered."
-        )
-        return
-
-    save_record(
-        section=section,
-        fields=fields
-    )
 
     print(
         "\nCredential added successfully."

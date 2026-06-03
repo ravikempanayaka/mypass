@@ -1,51 +1,60 @@
-from mypass.parser import parse_mypass
-from mypass.storage import get_file_path
+import sys
+
+from mypass.commands import (
+    init,
+    setup,
+    add,
+    list,
+    search,
+    show,
+    delete
+)
 
 
-def run(keyword):
+def main():
 
-    keyword = keyword.lower()
+    if len(sys.argv) < 2:
+        print(
+            """
+mypass setup
+mypass init
+mypass add
+mypass list
+mypass search <keyword>
+mypass show <name>
+mypass delete <name>
+"""
+        )
+        return
 
-    data = parse_mypass()
+    command = sys.argv[1]
 
-    deleted = False
+    if command == "setup":
+        setup.run()
 
-    file_path = get_file_path()
+    elif command == "init":
+        init.run()
 
-    with open(
-        file_path,
-        "w",
-        encoding="utf-8"
-    ) as f:
+    elif command == "add":
+        add.run()
 
-        for section, records in data.items():
+    elif command == "list":
+        list.run()
 
-            for record in records:
+    elif command == "search":
+        search.run(
+            sys.argv[2]
+        )
 
-                values = [
-                    str(v).lower()
-                    for v in record.values()
-                ]
+    elif command == "show":
+        show.run(
+            sys.argv[2]
+        )
 
-                if any(
-                    keyword in value
-                    for value in values
-                ):
-                    deleted = True
-                    continue
+    elif command == "delete":
+        delete.run(
+            sys.argv[2]
+        )
 
-                f.write(
-                    f"\n[{section}]\n"
-                )
-
-                for key, value in record.items():
-                    f.write(
-                        f"{key}: {value}\n"
-                    )
-
-                f.write("\n")
-
-    if deleted:
-        print("Record deleted.")
     else:
-        print("No record found.")
+        search.run(command)

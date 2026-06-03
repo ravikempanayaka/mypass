@@ -7,6 +7,8 @@ from mypass.commands import (
     search,
     delete,
     # copy,
+    show,
+    setup
 )
 
 
@@ -39,6 +41,24 @@ mypass <keyword>
 
     elif command == "list":
         list.run()
+
+    elif command == "show":
+
+        if len(sys.argv) < 3:
+            print(
+                "Usage: mypass show <name>"
+            )
+            return
+
+        keyword = " ".join(
+            sys.argv[2:]
+        )
+
+        show.run(keyword)
+
+    elif command == "setup":
+        print("Running setup...")
+        setup.run()
 
     # elif command == "copy":
     #

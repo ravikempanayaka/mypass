@@ -1,14 +1,21 @@
-from mypass.storage import get_file_path
+import os
+
+from mypass.storage import FILE_PATH
 
 
 def run():
 
-    file_path = get_file_path()
-
-    if file_path.exists():
-        print(f"Already exists: {file_path}")
+    if FILE_PATH.exists():
+        print("Vault already exists.")
         return
 
-    file_path.touch()
+    FILE_PATH.touch()
 
-    print(f"Created: {file_path}")
+    os.chmod(
+        FILE_PATH,
+        0o600
+    )
+
+    print(
+        f"Created {FILE_PATH}"
+    )

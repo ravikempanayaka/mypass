@@ -1,24 +1,26 @@
-from mypass.parser import parse_mypass
+from mypass.parser import (
+    parse_mypass
+)
 
 
 def run():
 
     data = parse_mypass()
 
-    if not data:
-        print("No records found.")
-        return
+    for section, records in (
+        data.items()
+    ):
 
-    print()
-
-    for section, records in data.items():
-
-        print(f"[{section}]")
+        print(
+            f"\n[{section}]"
+        )
 
         for record in records:
 
-            name = record.get("Name", "")
-
-            print(f"  - {name}")
-
-        print()
+            print(
+                "-",
+                record.get(
+                    "Name",
+                    "Unknown"
+                )
+            )
