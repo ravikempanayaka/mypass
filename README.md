@@ -48,6 +48,14 @@ pipx install secure-mypass
 
 ---
 
+### Windows
+
+Install:
+
+```powershell
+python -m pip install secure-mypass
+```
+
 ## Alternative: Virtual Environment
 
 ```bash
