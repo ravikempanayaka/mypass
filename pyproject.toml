@@ -4,25 +4,46 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "secure-mypass"
-version =  "1.0.3"
+version = "1.0.4"
 description = "Secure local terminal password manager"
 readme = "README.md"
 requires-python = ">=3.10"
 
 authors = [
-  {name = "Ravi K"}
+    { name = "Ravi K", email = "kravi2439@gmail.com" },
 ]
-
+license = { text = "MIT" }
+keywords = [
+    "secure-mypass", "password manager", "terminal tool",
+    "local storage", "cli password manager", "offline credentials",
+    "password-manager", "credential-manager", "cli", "terminal",
+    "security", "cybersecurity", "developer-tools", "password-storage",
+    "credentials", "master-password", "encryption", "local-storage", "devops",
+    "python-cli", "command-line-tool"
+]
 dependencies = [
     "pyperclip",
     "cryptography"
 ]
 
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Environment :: Console",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Security :: Cryptography",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities"
 ]
 
 [project.scripts]
 mypass = "mypass.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ravikempanayaka/mypass#"
