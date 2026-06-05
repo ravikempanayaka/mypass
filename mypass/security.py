@@ -8,6 +8,15 @@ from cryptography.fernet import Fernet
 
 from mypass.storage import KEY_FILE
 VERIFY_TEXT = "SECURE_MYPASS_VERIFICATION"
+from mypass.session import (
+    is_session_valid,
+    create_session
+)
+
+from mypass.crypto_utils import (
+    encrypt,
+    decrypt
+)
 
 def verify_master_password():
 
@@ -186,3 +195,28 @@ def decrypt(text, cipher):
     return cipher.decrypt(
         encrypted.encode()
     ).decode()
+
+def authenticate():
+
+    if is_session_valid():
+
+        return prompt_cipher()
+
+    cipher = verify_master_password()
+
+    if not cipher:
+        return None
+
+    from mypass.mfa import verify
+
+    if not verify(cipher):
+
+        print(
+            "Invalid OTP."
+        )
+
+        return None
+
+    create_session()
+
+    return cipher

@@ -4,18 +4,28 @@ from mypass.security import (
     verify_master_password,
     decrypt,
 )
+from mypass.security import (
+    authenticate
+)
+
+from mypass.mfa import verify
 
 
 def run(keyword):
 
     keyword = keyword.lower()
 
-    cipher = (
-        verify_master_password()
-    )
+    cipher = authenticate()
 
     if not cipher:
         return
+
+    # if not verify():
+    #     print(
+    #         "Invalid OTP."
+    #     )
+    #
+    #     return
 
     data = parse_mypass()
 

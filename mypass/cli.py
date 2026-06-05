@@ -8,8 +8,13 @@ from mypass.commands import (
     delete,
     # copy,
     show,
-    setup
+    setup,
+    enable_mfa,
+    disable_mfa,
+    lock,
+    status
 )
+
 
 
 def main():
@@ -35,6 +40,22 @@ mypass <keyword>
 
     if command == "init":
         init.run()
+
+    elif command == "enable-mfa":
+
+        enable_mfa.run()
+
+    elif command == "disable-mfa":
+
+        disable_mfa.run()
+
+    elif command == "lock":
+
+        lock.run()
+
+    elif command == "status":
+
+        status.run()
 
     elif command == "add":
         add.run()

@@ -10,6 +10,10 @@ from mypass.security import (
 from mypass.storage import (
     FILE_PATH
 )
+from mypass.mfa import verify
+from mypass.security import (
+        authenticate
+    )
 
 SENSITIVE_FIELDS = {
     "password",
@@ -26,12 +30,18 @@ SENSITIVE_FIELDS = {
 
 
 def run():
-    cipher = (
-        verify_master_password()
-    )
+    cipher = authenticate()
+
 
     if not cipher:
         return
+
+    # if not verify():
+    #     print(
+    #         "Invalid OTP."
+    #     )
+    #
+    #     return
 
     data = parse_mypass()
 

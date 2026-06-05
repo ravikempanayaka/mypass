@@ -1,6 +1,7 @@
 from mypass.parser import parse_mypass
-from mypass.security import verify_master_password
+from mypass.security import verify_master_password, authenticate
 from mypass.storage import FILE_PATH
+from mypass.mfa import verify
 
 
 def run(keyword):
@@ -8,6 +9,13 @@ def run(keyword):
     cipher = verify_master_password()
 
     if not cipher:
+        return
+
+    if not verify():
+        print(
+            "Invalid OTP."
+        )
+
         return
 
     keyword = keyword.lower()

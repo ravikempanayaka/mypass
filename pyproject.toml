@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "secure-mypass"
-version = "1.0.4"
+version = "1.1.0"
 description = "Secure local terminal password manager"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,7 +23,9 @@ keywords = [
 ]
 dependencies = [
     "pyperclip",
-    "cryptography"
+    "cryptography",
+    "pyotp",
+    "qrcode[pil]"
 ]
 
 classifiers = [
