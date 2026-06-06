@@ -5,7 +5,7 @@ from mypass.storage import (
     SESSION_FILE
 )
 
-SESSION_TIMEOUT = 90
+SESSION_TIMEOUT = 900
 
 
 def create_session():
