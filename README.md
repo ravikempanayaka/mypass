@@ -308,6 +308,23 @@ C:\Users\<username>\.mypass.session
 
 ```
 ```
+# Secure MyPass Workflow Overview
+
+The image below demonstrates the complete Secure MyPass security workflow, including vault initialization, master password protection, MFA configuration, credential management, session handling, and vault locking.
+
+**Workflow Steps**
+
+1. Configure a Master Password
+2. Enable Multi-Factor Authentication (Microsoft Authenticator or Google Authenticator)
+3. Scan the QR Code and Verify OTP
+4. Add and Manage Credentials
+5. Check Session Status
+6. Access Credentials Securely
+7. Lock the Vault When Finished
+
+> **Figure 1:** Complete Secure MyPass workflow showing Master Password Setup, MFA Configuration, Credential Management, Session Monitoring, and Vault Locking.
+
+![Secure MyPass Workflow](https://raw.githubusercontent.com/ravikempanayaka/mypass/main/docs/images/secure-mypass-workflow.png)
 
 
 # Daily Usage
