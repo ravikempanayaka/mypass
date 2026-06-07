@@ -496,22 +496,6 @@ The master password is required before decryption.
 
 ---
 
-# Storage Location
-
-## Linux / macOS
-
-```text
-~/.mypass
-~/.mypass.key
-```
-
-## Windows
-
-```text
-C:\Users\<username>\.mypass
-C:\Users\<username>\.mypass.key
-```
-
 ---
 
 # Backup
@@ -540,15 +524,19 @@ Without `.mypass.key`, encrypted credentials cannot be decrypted.
 
 # Commands
 
-| Command                   | Description                        |
-| ------------------------- | ---------------------------------- |
-| `mypass init`             | Create vault file                  |
-| `mypass setup`            | Configure master password          |
-| `mypass add`              | Add a credential                   |
-| `mypass list`             | List credentials                   |
-| `mypass search <keyword>` | Search credentials (masked output) |
-| `mypass show <keyword>`   | Show decrypted credential          |
-| `mypass delete <keyword>` | Delete credential                  |
+| Command                   | Description                                                 |
+|---------------------------|-------------------------------------------------------------|
+| `mypass init`             | Create vault file                                           |
+| `mypass setup`            | Configure master password                                   |
+| `mypass enable-mfa`       | Enable and configure Multi-Factor Authentication (Optional) |
+| `mypass disable-mfa`      | Disable Multi-Factor Authentication (MFA)                   |
+| `mypass add`              | Add a credential                                            |
+| `mypass list`             | List credentials                                            |
+| `mypass search <keyword>` | Search credentials (masked output)                          |
+| `mypass show <keyword>`   | Show decrypted credential                                   |
+| `mypass delete <keyword>` | Delete credential                                           |
+| `mypass status`           | Show current vault and session status                       |
+| `mypass lock`             | Lock the vault and clear the active session                 |
 
 ---
 

@@ -1,11 +1,12 @@
 import os
+import re
 import json
 import base64
 import getpass
 
 from hashlib import pbkdf2_hmac
 from cryptography.fernet import Fernet
-
+from mypass.storage import MFA_FILE
 from mypass.storage import KEY_FILE
 VERIFY_TEXT = "SECURE_MYPASS_VERIFICATION"
 from mypass.session import (
@@ -89,10 +90,51 @@ def setup_master_password():
             "Master password already configured."
         )
         return
+    print(
+        "\nMaster Password Requirements:"
+    )
 
+    print(
+        "- Minimum 8 characters"
+    )
+
+    print(
+        "- At least one uppercase letter"
+    )
+
+    print(
+        "- At least one lowercase letter"
+    )
+
+    print(
+        "- At least one number"
+    )
+
+    print(
+        "- At least one special character"
+    )
+
+    print()
     password = getpass.getpass(
         "Create Master Password: "
     )
+
+    errors = validate_master_password(
+        password
+    )
+
+    if errors:
+
+        print(
+            "\nMaster Password Requirements:"
+        )
+
+        for error in errors:
+            print(
+                f"- {error}"
+            )
+
+        return
 
     confirm = getpass.getpass(
         "Confirm Master Password: "
@@ -198,14 +240,16 @@ def decrypt(text, cipher):
 
 def authenticate():
 
-    if is_session_valid():
-
-        return prompt_cipher()
-
     cipher = verify_master_password()
 
     if not cipher:
         return None
+
+    if not MFA_FILE.exists():
+        return cipher
+
+    if is_session_valid():
+        return cipher
 
     from mypass.mfa import verify
 
@@ -220,3 +264,54 @@ def authenticate():
     create_session()
 
     return cipher
+
+
+def validate_master_password(
+    password
+):
+
+    errors = []
+
+    if len(password) < 8:
+
+        errors.append(
+            "Minimum 8 characters required."
+        )
+
+    if not re.search(
+        r"[A-Z]",
+        password
+    ):
+
+        errors.append(
+            "At least one uppercase letter required."
+        )
+
+    if not re.search(
+        r"[a-z]",
+        password
+    ):
+
+        errors.append(
+            "At least one lowercase letter required."
+        )
+
+    if not re.search(
+        r"\d",
+        password
+    ):
+
+        errors.append(
+            "At least one number required."
+        )
+
+    if not re.search(
+        r"[!@#$%^&*()_\-+=\[\]{}|\\:;\"'<>,.?/]",
+        password
+    ):
+
+        errors.append(
+            "At least one special character required."
+        )
+
+    return errors
