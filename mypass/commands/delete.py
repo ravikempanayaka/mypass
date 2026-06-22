@@ -1,21 +1,12 @@
 from mypass.parser import parse_mypass
-from mypass.security import verify_master_password, authenticate
+from mypass.security import authenticate
 from mypass.storage import FILE_PATH
-from mypass.mfa import verify
 
 
 def run(keyword):
-
-    cipher = verify_master_password()
+    cipher = authenticate()
 
     if not cipher:
-        return
-
-    if not verify():
-        print(
-            "Invalid OTP."
-        )
-
         return
 
     keyword = keyword.lower()
@@ -32,7 +23,7 @@ def run(keyword):
         for record in records:
 
             section_match = (
-                keyword in section.lower()
+                    keyword in section.lower()
             )
 
             record_match = any(
@@ -66,7 +57,6 @@ def run(keyword):
             break
 
     if not found:
-
         print(
             f"No credential found for '{keyword}'."
         )
@@ -78,7 +68,6 @@ def run(keyword):
     ).strip().lower()
 
     if confirm != "y":
-
         print(
             "Delete cancelled."
         )
@@ -97,11 +86,10 @@ def run(keyword):
 
 
 def save_data(data):
-
     with open(
-        FILE_PATH,
-        "w",
-        encoding="utf-8"
+            FILE_PATH,
+            "w",
+            encoding="utf-8"
     ) as file:
 
         first_section = True
@@ -120,7 +108,6 @@ def save_data(data):
                 )
 
                 for key, value in record.items():
-
                     file.write(
                         f"{key}: {value}\n"
                     )
